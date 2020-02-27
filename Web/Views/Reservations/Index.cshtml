@@ -1,0 +1,61 @@
+﻿@model Web.Models.Reservations.ReservationsIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> signInManager;
+
+<h1>Reservations</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Is Confirmed
+            </th>
+            <th>
+                Total Number Of Passagers
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalNumberOfPassagers)
+                </td>
+                <td>
+                    <a class="nav-link" asp-action="Details" asp-route-id="@item.Id"><span class="btn btn-primary">Details</span></a>
+                </td>
+
+                @if (!item.IsConfirmed && User.IsInRole("Admin,Employee"))
+                {
+                    <td>
+                        <a class="nav-link" asp-action="Delete" asp-route-id="@item.Id"><span class="btn btn-danger">Delete</span></a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+    <ul class="pagination">
+        @for (var i = 1; i <= Model.Pager.PagesCount; i++)
+        {
+            <li class="page-item @(i == Model.Pager.CurrentPage ? "active" : "")">
+                <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+            </li>
+        }
+    </ul>
+</table>
+

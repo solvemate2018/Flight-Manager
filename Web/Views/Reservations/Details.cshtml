@@ -1,0 +1,132 @@
+﻿@model Web.Models.Reservations.ReservationsDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>FlightsDetailsViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Id
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            Is Confirmed
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsConfirmed)
+        </dd>
+        <dt class="col-sm-2">
+            Regular Passagers
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfRegularPassagers)
+        </dd>
+        <dt class="col-sm-2">
+            Bussines Passagers
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfBussinesPassagers)
+        </dd>
+        <dt class="col-sm-2">
+            Email
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            From
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LocationFrom)
+        </dd>
+        <dt class="col-sm-2">
+            To
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LocationTo)
+        </dd>
+        <dt class="col-sm-2">
+            Take Off
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TakeOffTime)
+        </dd>
+        <dt class="col-sm-2">
+            Land
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LandingTime)
+        </dd>
+    </dl>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Middle Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Nationality
+                </th>
+                <th>
+                    Phone Number
+                </th>
+                <th>
+                    Type Of Ticket
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var passager in Model.Passagers)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => passager.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => passager.MiddleName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => passager.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => passager.Nationality)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => passager.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => passager.Type)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <ul class="pagination">
+            @for (var i = 1; i <= Model.Pager.PagesCount; i++)
+            {
+                <li class="page-item @(i == Model.Pager.CurrentPage ? "active" : "")">
+                    <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+                </li>
+            }
+        </ul>
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

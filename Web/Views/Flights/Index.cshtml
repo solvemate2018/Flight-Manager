@@ -1,0 +1,106 @@
+﻿@model Web.Models.Flights.FlightsIndexViewModel
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> signInManager;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Flights</h1>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+{
+    <div class="float-sm-right">
+        <a class="nav-link" asp-controller="Flights" asp-action="CreateFlight">
+            <span class="btn btn-dark">
+                Create Flight
+            </span>
+        </a>
+    </div>
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                From
+            </th>
+            <th>
+                To
+            </th>
+            <th>
+                Take off
+            <th>
+                Land
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationFrom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationTo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TakeOffTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LandingTime)
+            </td>
+            @if (item.IsCancelled)
+            {
+                <td class="text-danger">
+                    This Flight was Cancelled
+                </td>
+            }
+            else
+            {
+                <td>
+                    <form asp-controller="Flights" asp-action="CreateReservation" asp-route-id="@item.UniqueNumber">
+                        <div class="form-group">
+                            <label asp-for="NumberOfPassagers" class="control-label"></label>
+                            <input asp-for="NumberOfPassagers" class="form-control" />
+                            <span asp-validation-for="NumberOfPassagers" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="Id" class="form-control" value="@item.UniqueNumber" />
+                        </div>
+                        @{ TempData["FlightId"] = item.UniqueNumber;}
+                        <div class="form-group">
+                            <input type="submit" value="Make Reservation" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <a class="nav-link" asp-action="Details" asp-route-id="@item.UniqueNumber"><span class="btn btn-primary">Details</span></a>
+                </td>
+            }
+            @if (User.IsInRole("Admin") && !item.IsCancelled)
+            {
+                <td>
+                    <a class="nav-link" asp-action="CancelFlight" asp-route-id="@item.UniqueNumber"><span class="btn btn-danger">Cancel Flight</span></a>
+                </td>
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                <td>
+                    <a class="nav-link" asp-action="DeleteFlight" asp-route-id="@item.UniqueNumber"><span class="btn btn-danger">Delete Flight</span></a>
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+    <ul class="pagination">
+        @for (var i = 1; i <= Model.Pager.PagesCount; i++)
+        {
+            <li class="page-item @(i == Model.Pager.CurrentPage ? "active" : "")">
+                <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+            </li>
+        }
+    </ul>
+</table>

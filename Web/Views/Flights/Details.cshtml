@@ -1,0 +1,138 @@
+﻿@model Web.Models.Flights.FlightsDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>FlightsDetailsViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UniqueNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UniqueNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LocationFrom)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LocationFrom)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LocationTo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LocationTo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TakeOffTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TakeOffTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FlightDuration)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlightDuration)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PassagerCapacity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PassagerCapacity)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BussinesClassCapacity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BussinesClassCapacity)
+        </dd>
+    </dl>
+    <form asp-controller="Flights" asp-action="CreateReservation" asp-route-id="model.UniqueNumber">
+        <div class="form-group">
+            <label asp-for="NumberOfPassagers" class="control-label"></label>
+            <input asp-for="NumberOfPassagers" class="form-control" />
+            <span asp-validation-for="NumberOfPassagers" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="Id" class="form-control" value="model.UniqueNumber" />
+        </div>
+        @{ TempData["FlightId"] = Model.UniqueNumber;}
+        <div class="form-group">
+            <input type="submit" value="Make Reservation" class="btn btn-primary" />
+        </div>
+    </form>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Middle Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Nationality
+                </th>
+                <th>
+                    Phone Number
+                </th>
+                <th>
+                    Type Of Ticket
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var passager in Model.Passagers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => passager.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => passager.MiddleName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => passager.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => passager.Nationality)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => passager.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => passager.Type)
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <ul class="pagination">
+            @for (var i = 1; i <= Model.Pager.PagesCount; i++)
+            {
+                <li class="page-item @(i == Model.Pager.CurrentPage ? "active" : "")">
+                    <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+                </li>
+            }
+        </ul>
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

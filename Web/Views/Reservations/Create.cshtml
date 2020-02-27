@@ -1,0 +1,91 @@
+﻿@model Web.Models.Reservations.ReservationsCreateViewModel
+@using Web.Models.Passager;
+@using Data.Enums;
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Make</h1>
+
+<h4>Reservation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FlightId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @{
+                Model.TotalNumberOfPassagers = (int)TempData.Peek("NumberOfPassagers");
+                Model.Passagers = new PassagersCreateModel[Model.TotalNumberOfPassagers];
+
+                for (int i = 0; i < Model.TotalNumberOfPassagers; i++)
+                {
+                    <h1>Passager</h1>
+                    <div class="form-group">
+                        <label asp-for="Passagers[i].FirstName" class="control-label">First Name</label>
+                        <input asp-for="Passagers[i].FirstName" class="form-control" />
+                        <span asp-validation-for="Passagers[i].FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passagers[i].MiddleName" class="control-label">Middle Name</label>
+                        <input asp-for="Passagers[i].MiddleName" class="form-control" />
+                        <span asp-validation-for="Passagers[i].MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passagers[i].LastName" class="control-label">Last Name</label>
+                        <input asp-for="Passagers[i].LastName" class="form-control" />
+                        <span asp-validation-for="Passagers[i].LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passagers[i].UniqueIdentificationNumber" class="control-label">UniqueIdentificationNumber</label>
+                        <input asp-for="Passagers[i].UniqueIdentificationNumber" class="form-control" />
+                        <span asp-validation-for="Passagers[i].UniqueIdentificationNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passagers[i].PhoneNumber" class="control-label">PhoneNumber</label>
+                        <input asp-for="Passagers[i].PhoneNumber" class="form-control" />
+                        <span asp-validation-for="Passagers[i].PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passagers[i].Nationality" class="control-label">Nationality</label>
+                        <div class="col-md-10">
+                            <select asp-for="Passagers[i].Nationality" asp-items="Html.GetEnumSelectList<Nationalities>()">
+                                <option selected="selected" value="">Please select</option>
+                            </select>
+                            <span asp-validation-for="Passagers[i].Nationality" class="text-danger" />
+                        </div>
+                        <span asp-validation-for="Passagers[i].Nationality" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passagers[i].Type" class="control-label">Nationality</label>
+                        <div class="col-md-10">
+                            <select asp-for="Passagers[i].Type" asp-items="Html.GetEnumSelectList<TypesOfTicket>()">
+                                <option selected="selected" value="">Please select</option>
+                            </select>
+                            <span asp-validation-for="Passagers[i].Type" class="text-danger" />
+                        </div>
+                        <span asp-validation-for="Passagers[i].Type" class="text-danger"></span>
+                    </div>
+                    <br>
+                }
+            }
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

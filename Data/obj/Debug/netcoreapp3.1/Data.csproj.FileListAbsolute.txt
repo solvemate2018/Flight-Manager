@@ -1,0 +1,8 @@
+C:\Users\georg\source\repos\FlightManager\Data\bin\Debug\netcoreapp3.1\Data.deps.json
+C:\Users\georg\source\repos\FlightManager\Data\bin\Debug\netcoreapp3.1\Data.dll
+C:\Users\georg\source\repos\FlightManager\Data\obj\Debug\netcoreapp3.1\Data.AssemblyInfoInputs.cache
+C:\Users\georg\source\repos\FlightManager\Data\obj\Debug\netcoreapp3.1\Data.AssemblyInfo.cs
+C:\Users\georg\source\repos\FlightManager\Data\obj\Debug\netcoreapp3.1\Data.csprojAssemblyReference.cache
+C:\Users\georg\source\repos\FlightManager\Data\bin\Debug\netcoreapp3.1\Data.pdb
+C:\Users\georg\source\repos\FlightManager\Data\obj\Debug\netcoreapp3.1\Data.dll
+C:\Users\georg\source\repos\FlightManager\Data\obj\Debug\netcoreapp3.1\Data.pdb
