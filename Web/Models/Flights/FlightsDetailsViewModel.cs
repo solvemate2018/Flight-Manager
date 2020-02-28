@@ -3,6 +3,7 @@ using Data.Enums;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Web.Models.Passager;
@@ -26,6 +27,7 @@ namespace Web.Models.Flights
         [TempData]
         public int Id { get; set; }
         [TempData]
+        [Range(1, 20, ErrorMessage = "Between 1 and 20")]
         public int NumberOfPassagers { get; set; }
     }
 }

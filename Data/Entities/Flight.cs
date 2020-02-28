@@ -20,24 +20,79 @@ namespace Data.Entities
         public string PilotName { get; set; }
         public int MaxPassagerCapacity { get; set; }
         public int MaxBussinesCapacity { get; set; }
-        public int PassagerCapacity { get; set; }
-        public int BussinesClassCapacity { get; set; }
+        public int PassagerCapacity 
+        {
+            get
+            {
+                int result;
+                if (Reservations == null || Reservations.Count == 0)
+                {
+                    result = MaxPassagerCapacity;
+                }
+                else
+                {
+                    result = MaxPassagerCapacity;
+                    foreach (var Reservation in Reservations)
+                    {
+                        result -= Reservation.NumberOfRegularPassagers;
+                    }
+                }
+                return result;
+            }
+            private set { }
+        }
+        public int BussinesClassCapacity
+        {
+            get
+            {
+                int result;
+                if (Reservations == null || Reservations.Count == 0)
+                {
+                    result = MaxBussinesCapacity;
+                }
+                else
+                {
+                    result = MaxBussinesCapacity;
+                    foreach (var Reservation in Reservations)
+                    {
+                        result -= Reservation.NumberOfBussinesPassagers;
+                    }
+                }
+                return result;
+            }
+
+            private set { }        
+        }
         public ICollection<Reservation> Reservations { get; set; }
         public bool IsCanceled { get; set; }
-
-        public Flight()
+        public bool IsOld 
         {
-            Reservations = new List<Reservation>();
+            get
+            {
+                bool isOld;
+                if (0 > DateTime.Compare(TakeOffTime, DateTime.Now))
+                {
+                    isOld = true;
+                }
+                else
+                {
+                    isOld = false;
+                }
+                return isOld;
+            }
+            set {}
         }
 
         public bool AddReservation(Reservation reservation)
         {
+            if (Reservations == null)
+            {
+                Reservations = new List<Reservation>();
+            }
             if (reservation.NumberOfRegularPassagers <= this.PassagerCapacity 
                 && reservation.NumberOfBussinesPassagers <= this.BussinesClassCapacity)
             {
                 this.Reservations.Add(reservation);
-                this.PassagerCapacity -= reservation.NumberOfRegularPassagers;
-                this.BussinesClassCapacity -= reservation.NumberOfBussinesPassagers;
                 return true;
             }
             else

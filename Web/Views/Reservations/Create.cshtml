@@ -12,8 +12,9 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            @{var flightId = (int)TempData.Peek("FlightId");}
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="FlightId" />
+            <input type="hidden" asp-for="FlightId" value="@flightId" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @{
                 Model.TotalNumberOfPassagers = (int)TempData.Peek("NumberOfPassagers");
@@ -38,12 +39,12 @@
                         <span asp-validation-for="Passagers[i].LastName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Passagers[i].UniqueIdentificationNumber" class="control-label">UniqueIdentificationNumber</label>
+                        <label asp-for="Passagers[i].UniqueIdentificationNumber" class="control-label">Unique Identification Number</label>
                         <input asp-for="Passagers[i].UniqueIdentificationNumber" class="form-control" />
                         <span asp-validation-for="Passagers[i].UniqueIdentificationNumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Passagers[i].PhoneNumber" class="control-label">PhoneNumber</label>
+                        <label asp-for="Passagers[i].PhoneNumber" class="control-label">Phone Number</label>
                         <input asp-for="Passagers[i].PhoneNumber" class="form-control" />
                         <span asp-validation-for="Passagers[i].PhoneNumber" class="text-danger"></span>
                     </div>
@@ -58,7 +59,7 @@
                         <span asp-validation-for="Passagers[i].Nationality" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Passagers[i].Type" class="control-label">Nationality</label>
+                        <label asp-for="Passagers[i].Type" class="control-label">Type of ticket</label>
                         <div class="col-md-10">
                             <select asp-for="Passagers[i].Type" asp-items="Html.GetEnumSelectList<TypesOfTicket>()">
                                 <option selected="selected" value="">Please select</option>

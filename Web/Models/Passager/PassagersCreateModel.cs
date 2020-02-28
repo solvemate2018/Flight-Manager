@@ -26,11 +26,13 @@ namespace Web.Models.Passager
 
         [Required(ErrorMessage = "Must Fill")]
         [StringLength(10, ErrorMessage = "UIN length must be 10", MinimumLength = 10)]
+        [RegularExpression(@"[0-9]*$", ErrorMessage = "Should include only numbers")]
         public string UniqueIdentificationNumber { get; set; }
 
 
         [Required(ErrorMessage = "Must Fill")]
         [DataType(DataType.PhoneNumber, ErrorMessage ="Should be in phone number format")]
+        [RegularExpression(@"[0-9]*$", ErrorMessage ="Should include only numbers")]
         public string PhoneNumber { get; set; }
 
 

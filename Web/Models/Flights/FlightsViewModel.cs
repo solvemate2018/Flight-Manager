@@ -6,6 +6,7 @@ namespace Web.Models.Flights
     public class FlightsViewModel
     {
         public bool IsCancelled { get; set; }
+        public bool IsOld { get; set; }
         public string LocationFrom { get; set; }
         public string LocationTo { get; set; }
         public DateTime TakeOffTime { get; set; }

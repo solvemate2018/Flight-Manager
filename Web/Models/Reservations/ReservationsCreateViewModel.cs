@@ -12,6 +12,7 @@ namespace Web.Models.Reservations
     public class ReservationsCreateViewModel
     {
         [Required]
+        [Range(1, 20)]
         public int TotalNumberOfPassagers { get; set; }
 
         [Required(ErrorMessage ="Should be filled")]

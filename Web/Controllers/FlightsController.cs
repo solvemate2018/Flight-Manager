@@ -27,22 +27,48 @@ namespace Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(FlightsIndexViewModel model)
         {
+
             model.Pager ??= new PagerViewModel();
             model.Pager.CurrentPage = model.Pager.CurrentPage <= 0 ? 1 : model.Pager.CurrentPage;
 
-            ICollection<FlightsViewModel> items = await _context.Flights.Skip((model.Pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(f => new FlightsViewModel()
+            ICollection<FlightsViewModel> items;
+
+            RefreshFlights();
+
+            if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
-                IsCancelled = f.IsCanceled,
-                LocationFrom = f.LocationFrom,
-                LocationTo = f.LocationTo,
-                TakeOffTime = f.TakeOffTime,
-                LandingTime = f.LandingTime,
-                Type = f.Type,
-                UniqueNumber = f.UniqueNumber,
-                PilotName = f.PilotName,
-                PassagerCapacity = f.PassagerCapacity,
-                BussinesClassCapacity = f.BussinesClassCapacity
-            }).ToListAsync();
+                items = await _context.Flights.Skip((model.Pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(f => new FlightsViewModel()
+                {
+                    IsCancelled = f.IsCanceled,
+                    IsOld = f.IsOld,
+                    LocationFrom = f.LocationFrom,
+                    LocationTo = f.LocationTo,
+                    TakeOffTime = f.TakeOffTime,
+                    LandingTime = f.LandingTime,
+                    Type = f.Type,
+                    UniqueNumber = f.UniqueNumber,
+                    PilotName = f.PilotName,
+                    PassagerCapacity = f.PassagerCapacity,
+                    BussinesClassCapacity = f.BussinesClassCapacity
+                }).OrderByDescending(f => f.TakeOffTime).ToListAsync();
+            }
+            else
+            {
+                items = await _context.Flights.Where(f => f.IsOld == false).Skip((model.Pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(f => new FlightsViewModel()
+                {
+                    IsCancelled = f.IsCanceled,
+                    IsOld = f.IsOld,
+                    LocationFrom = f.LocationFrom,
+                    LocationTo = f.LocationTo,
+                    TakeOffTime = f.TakeOffTime,
+                    LandingTime = f.LandingTime,
+                    Type = f.Type,
+                    UniqueNumber = f.UniqueNumber,
+                    PilotName = f.PilotName,
+                    PassagerCapacity = f.PassagerCapacity,
+                    BussinesClassCapacity = f.BussinesClassCapacity
+                }).OrderByDescending(f => f.TakeOffTime).ToListAsync();
+            }
 
             model.Items = items;
             model.Pager.PagesCount = (int)Math.Ceiling(await _context.Flights.CountAsync() / (double)PageSize);
@@ -50,18 +76,29 @@ namespace Web.Controllers
             return View(model);
         }
 
+        private void RefreshFlights()
+        {
+            List<Flight> flights = new List<Flight>();
+            foreach (var item in _context.Flights)
+            {
+                flights.Add(item);
+            }
+            _context.UpdateRange(flights);
+            _context.SaveChanges();
+        }
+
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             Flight flight = _context.Flights.Find(id);
+            flight.Reservations = await _context.Reservations.Where(r => r.FlightId == flight.UniqueNumber).ToListAsync();
+            List<Passager> passagers = new List<Passager>();
 
-            foreach (var item in _context.Reservations)
+            foreach (var reservation in flight.Reservations)
             {
-                Flight fl = _context.Flights.FindAsync(item.FlightId).Result;
-                fl.Reservations.Add(item);
+                reservation.Passagers = await _context.Passagers.Where(p => p.ReservationId == reservation.Id).ToListAsync();
+                passagers.AddRange(reservation.Passagers);
             }
-
-            await _context.SaveChangesAsync();
 
             FlightsDetailsViewModel model = new FlightsDetailsViewModel();
             model.UniqueNumber = flight.UniqueNumber;
@@ -75,16 +112,6 @@ namespace Web.Controllers
             model.Pager ??= new PagerViewModel();
             model.Pager.CurrentPage = model.Pager.CurrentPage <= 0 ? 1 : model.Pager.CurrentPage;
 
-            List<Passager> passagers = new List<Passager>();
-
-            foreach (Reservation reservation in _context.Reservations.Where(r => r.FlightId == flight.UniqueNumber))
-            {
-                foreach (Passager passager in _context.Passagers.Where(p => p.ReservationId == reservation.Id))
-                {
-                    passagers.Add(passager);
-                }
-            }
-
             List<PassagersViewModel> items = passagers.Skip((model.Pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(r => new PassagersViewModel()
             {
                 MiddleName = r.MiddleName,
@@ -93,7 +120,7 @@ namespace Web.Controllers
                 Nationality = r.Nationality,
                 PhoneNumber = r.PhoneNumber,
                 Type = r.Type
-            }).ToList();
+            }).OrderBy(f => f.FirstName).ToList();
 
             model.Passagers = items;
             model.Pager.PagesCount = (int)Math.Ceiling(passagers.Count() / (double)PageSize);
@@ -160,7 +187,7 @@ namespace Web.Controllers
         public async Task<IActionResult> DeleteFlight(int? id)
         {
             Flight flight = await _context.Flights.FindAsync(id);
-            if (flight.IsCanceled)
+            if (flight.IsCanceled || flight.IsOld)
             {
                 foreach (var reservation in _context.Reservations.Where(r => r.FlightId == flight.UniqueNumber))
                 {

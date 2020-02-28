@@ -38,39 +38,38 @@
     <tbody>
         @foreach (var user in Model.Users)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => user.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => user.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => user.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => user.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => user.UniqueIdentificationNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => user.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => user.Adress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => user.Email)
-            </td>
-            <td>
-                @{TempData["UserId"] = user.UniqueIdentificationNumber;}
-                <a class="nav-link" asp-action="Edit" asp-route-id="@user.UniqueIdentificationNumber"><span class="btn btn-danger">Edit</span></a>
-            </td>
-            <td>
-                <a class="nav-link" asp-action="Delete" asp-route-id="@user.UniqueIdentificationNumber"><span class="btn btn-danger">Delete</span></a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => user.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.UniqueIdentificationNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Adress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Email)
+                </td>
+                <td>
+                    <a class="nav-link" asp-action="Edit" asp-route-id="@user.UniqueIdentificationNumber"><span class="btn btn-danger">Edit</span></a>
+                </td>
+                <td>
+                    <a class="nav-link" asp-action="Delete" asp-route-id="@user.UniqueIdentificationNumber"><span class="btn btn-danger">Delete</span></a>
+                </td>
+            </tr>
         }
     </tbody>
     <ul class="pagination">

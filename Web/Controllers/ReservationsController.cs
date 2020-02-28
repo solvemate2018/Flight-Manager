@@ -20,6 +20,7 @@ namespace Web.Controllers
     {
         private readonly FlightManagerDbContext _context;
         private int PageSize = 10;
+        private int PageSizeForDetails = 10;
         private MailsController mailsController;
 
         public ReservationsController()
@@ -65,25 +66,14 @@ namespace Web.Controllers
             {
                 Reservation reservation = new Reservation
                 {
-                    IsConfirmed = false,
                     Email = model.Email,
-                    Passagers = new List<Passager>(),
-                    NumberOfBussinesPassagers = 0,
-                    NumberOfRegularPassagers = 0,
-                    TotalNumberOfPassagers = (int)TempData["NumberOfPassagers"],
                     FlightId = (int)id,
                     Flight = _context.Flights.Find(id)
                 };
 
                 Flight flight = _context.Flights.Find(reservation.FlightId);
 
-                if (flight.Reservations.Count == 0)
-                {
-                    flight.PassagerCapacity = flight.MaxPassagerCapacity;
-                    flight.BussinesClassCapacity = flight.MaxBussinesCapacity;
-                }
-
-                for (int i = 0; i < reservation.TotalNumberOfPassagers; i++)
+                for (int i = 0; i < (int)TempData["NumberOfPassagers"]; i++)
                 {
                     Passager passager = new Passager
                     {
@@ -100,24 +90,13 @@ namespace Web.Controllers
                     _context.Passagers.Add(passager);
                 }
 
-                if (_context.Flights.Find(reservation.FlightId).PassagerCapacity >= reservation.NumberOfRegularPassagers
-                    && _context.Flights.Find(reservation.FlightId).BussinesClassCapacity >= reservation.NumberOfBussinesPassagers)
-                {
-                    reservation.IsConfirmed = true;
-                }
-                else
-                {
-                    reservation.IsConfirmed = false;
-                }
-                
                 _context.Reservations.Add(reservation);
 
+                flight.AddReservation(reservation);
                 if (reservation.IsConfirmed)
                 {
-                    flight.AddReservation(reservation);
+                    mailsController.SendReservationConfirmation(reservation.Email, reservation.Passagers);
                 }
-
-                mailsController.SendReservationConfirmation(reservation.Email, reservation.Passagers);
 
                 await _context.SaveChangesAsync();
 
@@ -132,20 +111,11 @@ namespace Web.Controllers
             model.Pager ??= new PagerViewModel();
             model.Pager.CurrentPage = model.Pager.CurrentPage <= 0 ? 1 : model.Pager.CurrentPage;
 
-            Reservation reservation =  _context.Reservations.FindAsync(id).Result;
+            Reservation reservation = _context.Reservations.FindAsync(id).Result;
             Flight flight = _context.Flights.FindAsync(reservation.FlightId).Result;
 
-            foreach (var item in _context.Passagers.Where(p => p.ReservationId == reservation.Id))
-            {
-                if (item.Type == TypesOfTicket.Regular)
-                {
-                    reservation.NumberOfRegularPassagers++;
-                }
-                else if (item.Type == TypesOfTicket.Bussines)
-                {
-                    reservation.NumberOfBussinesPassagers++;
-                }
-            }
+            reservation.Flight = flight;
+            reservation.Passagers = await _context.Passagers.Where(p => p.ReservationId == reservation.Id).ToListAsync();
 
             model.Id = reservation.Id;
             model.IsConfirmed = reservation.IsConfirmed;
@@ -173,7 +143,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-        [Authorize(Roles ="Employee,Admin")]
+        [Authorize(Roles = "Employee,Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             Reservation reservation = _context.Reservations.FindAsync(id).Result;

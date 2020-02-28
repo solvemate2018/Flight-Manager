@@ -13,8 +13,35 @@ namespace Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public ICollection<Passager> Passagers { get; set; }
-        public bool IsConfirmed { get; set; }
-        public int TotalNumberOfPassagers { get; set; }
+        public bool IsConfirmed
+        {
+            get
+            {
+                if (Flight == null)
+                {
+                    return false;
+                }
+                else
+                {
+                if (Flight.PassagerCapacity >= NumberOfRegularPassagers
+                    && Flight.BussinesClassCapacity >= NumberOfBussinesPassagers)
+                {
+                    return true;
+                }
+                return false;
+                }
+
+            }
+            private set { }
+        }
+        public int TotalNumberOfPassagers 
+        {
+            get
+            {
+                return NumberOfBussinesPassagers + NumberOfRegularPassagers;
+            }
+            private set { }
+        }
         public int NumberOfRegularPassagers
         {
             get
@@ -37,7 +64,7 @@ namespace Data.Entities
                 }
 
             }
-            set { }
+            private set { }
         }
         public int NumberOfBussinesPassagers
         {
@@ -60,7 +87,7 @@ namespace Data.Entities
                     return sum;
                 }
             }
-            set { }
+            private set { }
         }
         public string Email { get; set; }
         public bool IsCancelled { get; set; }
@@ -68,7 +95,10 @@ namespace Data.Entities
         public Flight Flight { get; set; }
         public Reservation()
         {
-            Passagers = new List<Passager>();
+            if (Passagers == null)
+            {
+                Passagers = new List<Passager>();
+            }
         }
     }
 }

@@ -18,6 +18,7 @@
     </div>
 }
 
+<br>
 
 <table class="table">
     <thead>
@@ -58,13 +59,19 @@
                     This Flight was Cancelled
                 </td>
             }
+            else if (item.IsOld)
+            {
+                <td class="text-danger">
+                    This Flight is old
+                </td>
+            }
             else
             {
                 <td>
                     <form asp-controller="Flights" asp-action="CreateReservation" asp-route-id="@item.UniqueNumber">
                         <div class="form-group">
-                            <label asp-for="NumberOfPassagers" class="control-label"></label>
-                            <input asp-for="NumberOfPassagers" class="form-control" />
+                            <label asp-for="NumberOfPassagers" class="control-label">Number of passagers</label>
+                            <input asp-for="NumberOfPassagers" class="form-control" value="1" />
                             <span asp-validation-for="NumberOfPassagers" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -80,20 +87,20 @@
                     <a class="nav-link" asp-action="Details" asp-route-id="@item.UniqueNumber"><span class="btn btn-primary">Details</span></a>
                 </td>
             }
-            @if (User.IsInRole("Admin") && !item.IsCancelled)
+            @if (User.IsInRole("Admin") && !item.IsCancelled && !item.IsOld)
             {
                 <td>
                     <a class="nav-link" asp-action="CancelFlight" asp-route-id="@item.UniqueNumber"><span class="btn btn-danger">Cancel Flight</span></a>
                 </td>
             }
-            else if (User.IsInRole("Admin"))
+            else if (User.IsInRole("Admin") && (item.IsCancelled || item.IsOld))
             {
                 <td>
                     <a class="nav-link" asp-action="DeleteFlight" asp-route-id="@item.UniqueNumber"><span class="btn btn-danger">Delete Flight</span></a>
                 </td>
             }
         </tr>
-        }
+                                }
     </tbody>
     <ul class="pagination">
         @for (var i = 1; i <= Model.Pager.PagesCount; i++)
@@ -104,3 +111,7 @@
         }
     </ul>
 </table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

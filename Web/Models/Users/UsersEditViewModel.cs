@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Web.Models.Users
 {
-    public class RegisterViewModel
+    public class UsersEditViewModel
     {
-        [Required(ErrorMessage = "Should be filled")]
-        [StringLength(40, ErrorMessage = "User name must be between 2 and 40.", MinimumLength = 2)]
-        public string UserName { get; set; }
-
+        public string UniqueIdentificationNumber { get; set; }
 
         [Required(ErrorMessage = "Should be filled")]
         [DataType(DataType.Password)]
@@ -20,7 +17,7 @@ namespace Web.Models.Users
 
         [Required(ErrorMessage = "Should be filled")]
         [DataType(DataType.Password)]
-        [Display(Name ="Confirm Password")]
+        [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "The Passwords do not match")]
         public string ConfirmPassword { get; set; }
 
@@ -41,17 +38,11 @@ namespace Web.Models.Users
 
 
         [Required(ErrorMessage = "Should be filled")]
-        [RegularExpression(@"[0-9]*$")]
-        [StringLength(10, ErrorMessage ="Should be from 10 numbers")]
-        public string UniqueIdentificationNumber { get; set; }
-
-
-        [Required(ErrorMessage = "Should be filled")]
         public string Adress { get; set; }
 
 
         [Required(ErrorMessage = "Should be filled")]
-        [DataType(DataType.PhoneNumber, ErrorMessage ="Should be in phone number format")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Should be in phone number format")]
         public string PhoneNumber { get; set; }
     }
 }

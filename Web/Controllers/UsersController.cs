@@ -47,7 +47,7 @@ namespace Web.Controllers
                 PhoneNumber = u.PhoneNumber,
                 UniqueIdentificationNumber = u.UniqueIdentificationNumber,
                 UserName = u.UserName
-            }).ToListAsync();
+            }).OrderBy(i => i.Email).ToListAsync();
 
             model.Users = items;
             model.Pager.PagesCount = (int)Math.Ceiling(await _context.Users.CountAsync() / (double)PageSize);
@@ -92,6 +92,13 @@ namespace Web.Controllers
                     identityUser.EmailConfirmed = true;
                     await userManager.AddToRoleAsync(identityUser, "Employee");
 
+                    if (_context.Users.Select(u => u.UniqueIdentificationNumber).Count() != 0)
+                    {
+                        if (_context.Users.Select(u => u.UniqueIdentificationNumber).First() == user.UniqueIdentificationNumber)
+                        {
+                            return View(model);
+                        }
+                    }
                     await _context.SaveChangesAsync();
 
                     return RedirectToAction("index", "home");
@@ -134,9 +141,9 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> Delete(int? id)
         {
-            User user = await _context.Users.FindAsync(TempData["UserId"]);
+            User user = await _context.Users.FindAsync("0" + id);
             _context.Users.Remove(user);
 
             IdentityUser identityUser = await userManager.FindByNameAsync(user.UserName);
@@ -146,6 +153,56 @@ namespace Web.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            User user = await _context.Users.FindAsync("0" + id.ToString());
+            UsersEditViewModel model = new UsersEditViewModel
+            {
+                Adress = user.Adress,
+                FirstName = user.FirstName,
+                Email = user.Email,
+                LastName = user.Email,
+                Password = user.Password,
+                PhoneNumber = user.PhoneNumber,
+                UniqueIdentificationNumber = user.UniqueIdentificationNumber
+            };
+
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> Edit(UsersEditViewModel model)
+        {
+            if (ModelState.IsValid)
+           {
+                User user = await _context.Users.FindAsync(model.UniqueIdentificationNumber);
+
+                IdentityUser identityUser = await userManager.FindByNameAsync(user.UserName);
+
+                await userManager.ChangePasswordAsync(identityUser, user.Password, model.Password);
+
+                user.Adress = model.Adress;
+                user.Email = model.Email;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Password = model.Password;
+
+                _context.Users.Update(user);
+
+                identityUser.PhoneNumber = model.PhoneNumber;
+                identityUser.Email = model.Email;
+
+                await userManager.UpdateAsync(identityUser);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
         }
     }
 }

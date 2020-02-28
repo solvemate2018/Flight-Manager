@@ -11,49 +11,49 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UniqueNumber)
+            Unique number
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UniqueNumber)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LocationFrom)
+            Location from
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LocationFrom)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LocationTo)
+            Location to
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LocationTo)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TakeOffTime)
+            Take off time
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TakeOffTime)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FlightDuration)
+            Flight duration
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FlightDuration)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
+            Type of plane
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Type)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PassagerCapacity)
+            Regular class capacity
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PassagerCapacity)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BussinesClassCapacity)
+            Bussines class capacity
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BussinesClassCapacity)
@@ -61,8 +61,8 @@
     </dl>
     <form asp-controller="Flights" asp-action="CreateReservation" asp-route-id="model.UniqueNumber">
         <div class="form-group">
-            <label asp-for="NumberOfPassagers" class="control-label"></label>
-            <input asp-for="NumberOfPassagers" class="form-control" />
+            <label asp-for="NumberOfPassagers" class="control-label">Number of passagers</label>
+            <input asp-for="NumberOfPassagers" class="form-control" value="1" />
             <span asp-validation-for="NumberOfPassagers" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -78,22 +78,22 @@
         <thead>
             <tr>
                 <th>
-                    First Name
+                    First name
                 </th>
                 <th>
-                    Middle Name
+                    Middle name
                 </th>
                 <th>
-                    Last Name
+                    Last name
                 </th>
                 <th>
                     Nationality
                 </th>
                 <th>
-                    Phone Number
+                    Phone number
                 </th>
                 <th>
-                    Type Of Ticket
+                    Type Of ticket
                 </th>
                 <th></th>
             </tr>
@@ -136,3 +136,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

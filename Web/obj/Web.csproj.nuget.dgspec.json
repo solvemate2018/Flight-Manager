@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\georg\\source\\repos\\FlightManager\\Web\\Web.csproj": {}
+    "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Web\\Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\georg\\source\\repos\\FlightManager\\Data\\Data.csproj": {
+    "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\georg\\source\\repos\\FlightManager\\Data\\Data.csproj",
+        "projectUniqueName": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "C:\\Users\\georg\\source\\repos\\FlightManager\\Data\\Data.csproj",
+        "projectPath": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Data\\Data.csproj",
         "packagesPath": "C:\\Users\\georg\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\georg\\source\\repos\\FlightManager\\Data\\obj\\",
+        "outputPath": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -74,14 +74,14 @@
         }
       }
     },
-    "C:\\Users\\georg\\source\\repos\\FlightManager\\Web\\Web.csproj": {
+    "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Web\\Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\georg\\source\\repos\\FlightManager\\Web\\Web.csproj",
+        "projectUniqueName": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Web\\Web.csproj",
         "projectName": "Web",
-        "projectPath": "C:\\Users\\georg\\source\\repos\\FlightManager\\Web\\Web.csproj",
+        "projectPath": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Web\\Web.csproj",
         "packagesPath": "C:\\Users\\georg\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\georg\\source\\repos\\FlightManager\\Web\\obj\\",
+        "outputPath": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Web\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -101,8 +101,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\georg\\source\\repos\\FlightManager\\Data\\Data.csproj": {
-                "projectPath": "C:\\Users\\georg\\source\\repos\\FlightManager\\Data\\Data.csproj"
+              "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Data\\Data.csproj": {
+                "projectPath": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Data\\Data.csproj"
               }
             }
           }

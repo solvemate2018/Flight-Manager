@@ -5077,11 +5077,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\georg\\source\\repos\\FlightManager\\Data\\Data.csproj",
+      "projectUniqueName": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Data\\Data.csproj",
       "projectName": "Data",
-      "projectPath": "C:\\Users\\georg\\source\\repos\\FlightManager\\Data\\Data.csproj",
+      "projectPath": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Data\\Data.csproj",
       "packagesPath": "C:\\Users\\georg\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\georg\\source\\repos\\FlightManager\\Data\\obj\\",
+      "outputPath": "C:\\Users\\georg\\OneDrive\\Работен плот\\It career Project\\FlightManager\\Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
