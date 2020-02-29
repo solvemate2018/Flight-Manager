@@ -31,23 +31,21 @@ namespace Web.Controllers
             this._context = new FlightManagerDbContext();
         }
 
-
-        public async Task<IActionResult> Index(UsersIndexViewModel model)
+        //Returns the index page for admin
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index(UsersIndexViewModel model, int pageSize, string sortOrder)
         {
             model.Pager ??= new PagerViewModel();
             model.Pager.CurrentPage = model.Pager.CurrentPage <= 0 ? 1 : model.Pager.CurrentPage;
 
-            ICollection<UsersViewModel> items = await _context.Users.Skip((model.Pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
-            {
-                Adress = u.Adress,
-                Email = u.Email,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Password = u.Password,
-                PhoneNumber = u.PhoneNumber,
-                UniqueIdentificationNumber = u.UniqueIdentificationNumber,
-                UserName = u.UserName
-            }).OrderBy(i => i.Email).ToListAsync();
+            ICollection<UsersViewModel> items;
+
+            items = OrderTheUsersForIndex(sortOrder, model.Pager).ToList();
+
+            ResizeThePage(pageSize);
+
+            model.Order = sortOrder;
+            model.PageSize = PageSize;
 
             model.Users = items;
             model.Pager.PagesCount = (int)Math.Ceiling(await _context.Users.CountAsync() / (double)PageSize);
@@ -55,6 +53,249 @@ namespace Web.Controllers
             return View(model);
         }
 
+        //Returs ordered collection from users for index page
+        private ICollection<UsersViewModel> OrderTheUsersForIndex(string sortOrder, PagerViewModel pager)
+        {
+            ViewData["UsernameSortParm"] = sortOrder == "username" ? "username_desc" : "username";
+            ViewData["PasswordSortParm"] = sortOrder == "password" ? "password_desc" : "password";
+            ViewData["FirstNameSortParm"] = sortOrder == "first_name" ? "first_name_desc" : "first_name";
+            ViewData["LastNameSortParm"] = sortOrder == "last_name" ? "last_name_desc" : "last_name";
+            ViewData["UINSortParm"] = sortOrder == "UIN" ? "UIN_desc" : "UIN";
+            ViewData["PhoneNumberSortParm"] = sortOrder == "phone_number" ? "phone_number_desc" : "phone_number";
+            ViewData["AdressSortParm"] = sortOrder == "adress" ? "adress_desc" : "adress";
+            ViewData["EmailSortParm"] = sortOrder == "email" ? "email_desc" : "email";
+
+            ICollection<UsersViewModel> items;
+
+            switch (sortOrder)
+            {
+                case "email_desc":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderByDescending(i => i.Email).ToList();
+                    break;
+                case "password":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderBy(i => i.Password).ToList();
+                    break;
+                case "first_name":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderBy(i => i.FirstName).ToList();
+                    break;
+                case "last_name":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderBy(i => i.LastName).ToList();
+                    break;
+                case "UIN":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderBy(i => i.UniqueIdentificationNumber).ToList();
+                    break;
+                case "phone_number":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderBy(i => i.PhoneNumber).ToList();
+                    break;
+                case "adress":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderBy(i => i.Adress).ToList();
+                    break;
+                case "email":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderBy(i => i.Email).ToList();
+                    break;
+                case "username_desc":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderByDescending(i => i.UserName).ToList();
+                    break;
+                case "password_desc":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderByDescending(i => i.Password).ToList();
+                    break;
+                case "first_name_desc":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderByDescending(i => i.FirstName).ToList();
+                    break;
+                case "last_name_desc":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderByDescending(i => i.LastName).ToList();
+                    break;
+                case "UIN_desc":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderByDescending(i => i.UniqueIdentificationNumber).ToList();
+                    break;
+                case "phone_number_desc":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderByDescending(i => i.PhoneNumber).ToList();
+                    break;
+                case "adress_desc":
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderByDescending(i => i.Adress).ToList();
+                    break;
+                default:
+                    items = _context.Users.Skip((pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(u => new UsersViewModel()
+                    {
+                        Adress = u.Adress,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Password = u.Password,
+                        PhoneNumber = u.PhoneNumber,
+                        UniqueIdentificationNumber = u.UniqueIdentificationNumber,
+                        UserName = u.UserName
+                    }).OrderBy(i => i.UserName).ToList();
+                    break;
+            }
+
+            return items;
+        }
+
+        //Resize the number of rows with given size
+        private void ResizeThePage(int pageSize)
+        {
+            ViewData["PageSizeParm10"] = pageSize == 10 ? 10 : 10;
+            ViewData["PageSizeParm25"] = pageSize == 25 ? 10 : 25;
+            ViewData["PageSizeParm50"] = pageSize == 50 ? 10 : 50;
+
+            if (pageSize != 0)
+            {
+                PageSize = pageSize;
+            }
+        }
+
+        //Returns a page with form for registring
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Register()
@@ -63,6 +304,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        //Register a new user, when the register form is filled
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
@@ -107,12 +349,14 @@ namespace Web.Controllers
             return View(model);
         }
 
+        //Logging out of account
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("index", "home");
         }
 
+        //Returns login page
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
@@ -121,6 +365,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        //Login into existing account
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -140,10 +385,11 @@ namespace Web.Controllers
             return View(model);
         }
 
+        //Delete user account
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
-            User user = await _context.Users.FindAsync("0" + id);
+            User user = await _context.Users.FindAsync(id);
             _context.Users.Remove(user);
 
             IdentityUser identityUser = await userManager.FindByNameAsync(user.UserName);
@@ -155,10 +401,11 @@ namespace Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Returns a page with edit form
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
-            User user = await _context.Users.FindAsync("0" + id.ToString());
+            User user = await _context.Users.FindAsync(id);
             UsersEditViewModel model = new UsersEditViewModel
             {
                 Adress = user.Adress,
@@ -173,7 +420,8 @@ namespace Web.Controllers
             return View(model);
         }
 
-
+        //Update user account with given info
+        [HttpPost]
         public async Task<IActionResult> Edit(UsersEditViewModel model)
         {
             if (ModelState.IsValid)

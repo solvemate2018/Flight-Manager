@@ -13,13 +13,16 @@
     <thead>
         <tr>
             <th>
-                Id
+                <a asp-action="Index" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["IdSortParm"]">Id</a>
             </th>
             <th>
-                Is Confirmed
+                <a asp-action="Index" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["IsConfirmedSortParm"]">Is confirmed</a>
             </th>
             <th>
-                Total Number Of Passagers
+                <a asp-action="Index" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["NumberOfPassagersSortParm"]">Number of passagers</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["EmailSortParm"]">Email</a>
             </th>
         </tr>
     </thead>
@@ -37,6 +40,9 @@
                     @Html.DisplayFor(modelItem => item.TotalNumberOfPassagers)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
                     <a class="nav-link" asp-action="Details" asp-route-id="@item.Id"><span class="btn btn-primary">Details</span></a>
                 </td>
 
@@ -49,6 +55,17 @@
             </tr>
         }
     </tbody>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Number of rows
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@Model.Order" asp-route-pageSize="@ViewData["PageSizeParm10"]">10 rows</a>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@Model.Order" asp-route-pageSize="@ViewData["PageSizeParm25"]">25 rows</a>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@Model.Order" asp-route-pageSize="@ViewData["PageSizeParm50"]">50 rows</a>
+        </div>
+    </div>
+    <br />
     <ul class="pagination">
         @for (var i = 1; i <= Model.Pager.PagesCount; i++)
         {

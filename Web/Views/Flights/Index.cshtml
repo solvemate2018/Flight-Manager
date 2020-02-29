@@ -23,18 +23,21 @@
 <table class="table">
     <thead>
         <tr>
+        <tr>
             <th>
-                From
+                <a asp-action="Index" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["LocationFromSortParm"]">Location from</a>
             </th>
             <th>
-                To
+                <a asp-action="Index" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["LocationToSortParm"]">Location to</a>
             </th>
             <th>
-                Take off
+                <a asp-action="Index" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["TakeOffTimeSortParm"]">Take off time</a>
+            </th>
             <th>
-                Land
+                <a asp-action="Index" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["LandingTimeSortParm"]">Landing time</a>
             </th>
             <th></th>
+        </tr>
         </tr>
     </thead>
     <tbody>
@@ -93,15 +96,32 @@
                     <a class="nav-link" asp-action="CancelFlight" asp-route-id="@item.UniqueNumber"><span class="btn btn-danger">Cancel Flight</span></a>
                 </td>
             }
-            else if (User.IsInRole("Admin") && (item.IsCancelled || item.IsOld))
+            else if ((User.IsInRole("Admin") || User.IsInRole("Employee")) && (item.IsCancelled || item.IsOld))
             {
                 <td>
                     <a class="nav-link" asp-action="DeleteFlight" asp-route-id="@item.UniqueNumber"><span class="btn btn-danger">Delete Flight</span></a>
                 </td>
             }
+            @if ((User.IsInRole("Admin") || User.IsInRole("Employee")) && (!item.IsCancelled || !item.IsOld))
+            {
+                <td>
+                    <a class="nav-link" asp-action="EditFlight" asp-route-id="@item.UniqueNumber"><span class="btn btn-danger">Edit Flight</span></a>
+                </td>
+            }
         </tr>
-                                }
+        }
     </tbody>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Number of rows
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@Model.Order" asp-route-pageSize="@ViewData["PageSizeParm10"]">10 rows</a>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@Model.Order" asp-route-pageSize="@ViewData["PageSizeParm25"]">25 rows</a>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@Model.Order" asp-route-pageSize="@ViewData["PageSizeParm50"]">50 rows</a>
+        </div>
+    </div>
+    <br />
     <ul class="pagination">
         @for (var i = 1; i <= Model.Pager.PagesCount; i++)
         {

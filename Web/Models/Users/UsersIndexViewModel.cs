@@ -8,6 +8,8 @@ namespace Web.Models.Users
 {
     public class UsersIndexViewModel
     {
+        public int PageSize { get; set; }
+        public string Order { get; set; }
         public PagerViewModel Pager { get; set; }
 
         public ICollection<UsersViewModel> Users;

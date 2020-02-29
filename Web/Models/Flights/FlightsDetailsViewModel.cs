@@ -14,6 +14,8 @@ namespace Web.Models.Flights
 {
     public class FlightsDetailsViewModel
     {
+        public string Order { get; set; }
+        public int PageSize { get; set; }
         public PagerViewModel Pager { get; set; }
         public int UniqueNumber { get; set; }
         public string LocationFrom { get; set; }

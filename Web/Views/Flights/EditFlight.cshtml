@@ -1,0 +1,56 @@
+﻿@model Web.Models.Flights.FlightsEditViewModel
+
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<h1>Edit flight</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditFlight">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LocationFrom" class="control-label"></label>
+                <input asp-for="LocationFrom" class="form-control" value="@Model.LocationFrom" />
+                <span asp-validation-for="LocationFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LocationTo" class="control-label"></label>
+                <input asp-for="LocationTo" class="form-control" value="@Model.LocationTo" />
+                <span asp-validation-for="LocationTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TakeOffTime" class="control-label"></label>
+                <input asp-for="TakeOffTime" class="form-control" value="@Model.TakeOffTime" />
+                <span asp-validation-for="TakeOffTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LandingTime" class="control-label"></label>
+                <input asp-for="LandingTime" class="form-control" value="@Model.LandingTime" />
+                <span asp-validation-for="LandingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PilotName" class="control-label"></label>
+                <input asp-for="PilotName" class="form-control" value="@Model.PilotName" />
+                <span asp-validation-for="PilotName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" value="@Model.Type" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="UniqueNumber" type="hidden" value="@Model.UniqueNumber" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

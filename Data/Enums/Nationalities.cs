@@ -6,6 +6,8 @@ namespace Data.Enums
 {
     public enum Nationalities
     {
-        Bulgarian
+        Bulgarian,
+        German,
+        Italian
     }
 }

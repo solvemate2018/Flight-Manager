@@ -9,8 +9,7 @@ namespace Web.Controllers
 {
     public class MailsController
     {
-        public MailMessage message;
-
+        //Send information, if the reservation was confirmed
         public void SendReservationConfirmation(string email, ICollection<Passager> passagers)
         {
             using (var client = new SmtpClient("smtp.gmail.com", 587)
@@ -37,6 +36,7 @@ namespace Web.Controllers
             }
         }
 
+        //Send information to each reservation host, when the flight is cancelled
         public void SendReservationCancellation(ICollection<Reservation> reservations)
         {
             using (var client = new SmtpClient("smtp.gmail.com", 587)

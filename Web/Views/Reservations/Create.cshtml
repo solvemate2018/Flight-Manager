@@ -18,6 +18,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @{
                 Model.TotalNumberOfPassagers = (int)TempData.Peek("NumberOfPassagers");
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="TotalNumberOfPassagers" value="@Model.TotalNumberOfPassagers" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                 Model.Passagers = new PassagersCreateModel[Model.TotalNumberOfPassagers];
 
                 for (int i = 0; i < Model.TotalNumberOfPassagers; i++)

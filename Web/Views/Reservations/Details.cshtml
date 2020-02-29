@@ -7,7 +7,6 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Details</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -70,22 +69,22 @@
         <thead>
             <tr>
                 <th>
-                    First Name
+                    <a asp-action="Details" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["FirstNameSortParm"]">First name</a>
                 </th>
                 <th>
-                    Middle Name
+                    <a asp-action="Details" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["MiddleNameSortParm"]">Middle name</a>
                 </th>
                 <th>
-                    Last Name
+                    <a asp-action="Details" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["LastNameSortParm"]">Last name</a>
                 </th>
                 <th>
-                    Nationality
+                    <a asp-action="Details" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["NationalitySortParm"]">Nationality</a>
                 </th>
                 <th>
-                    Phone Number
+                    <a asp-action="Details" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["PhoneNumberSortParm"]">Phone number</a>
                 </th>
                 <th>
-                    Type Of Ticket
+                    <a asp-action="Details" asp-route-pageSize="@Model.PageSize" asp-route-sortOrder="@ViewData["TypeSortParm"]">Type of ticket</a>
                 </th>
                 <th></th>
             </tr>
@@ -117,6 +116,17 @@
                 }
             }
         </tbody>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Number of rows
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" asp-action="Details" asp-route-sortOrder="@Model.Order" asp-route-pageSize="@ViewData["PageSizeParm10"]">10 rows</a>
+                <a class="dropdown-item" asp-action="Details" asp-route-sortOrder="@Model.Order" asp-route-pageSize="@ViewData["PageSizeParm25"]">25 rows</a>
+                <a class="dropdown-item" asp-action="Details" asp-route-sortOrder="@Model.Order" asp-route-pageSize="@ViewData["PageSizeParm50"]">50 rows</a>
+            </div>
+        </div>
+        <br />
         <ul class="pagination">
             @for (var i = 1; i <= Model.Pager.PagesCount; i++)
             {

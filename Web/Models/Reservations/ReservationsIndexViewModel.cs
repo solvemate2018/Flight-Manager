@@ -10,6 +10,9 @@ namespace Web.Models.Reservations
     {
         public PagerViewModel Pager { get; set; }
 
+        public int PageSize { get; set; }
+        public string Order { get; set; }
+
         public ICollection<ReservationsViewModel> Items { get; set; }
 
     }

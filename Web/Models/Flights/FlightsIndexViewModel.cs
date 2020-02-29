@@ -12,6 +12,8 @@ namespace Web.Models.Flights
 
         public int PageSize { get; set; }
 
+        public string Order { get; set; }
+
         public ICollection<FlightsViewModel> Items { get; set; }
 
         [TempData]
