@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Data
 {
-    //The main connection with the Database
+    //The main connection with the Database for entities
     public class FlightManagerDbContext : DbContext
     {
         public virtual DbSet<User> Users { get; set; }

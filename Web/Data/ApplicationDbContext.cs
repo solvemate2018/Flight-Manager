@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Web.Data
 {
+    //Main connection with the Datebase for Identity
     public class ApplicationDbContext : IdentityDbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
