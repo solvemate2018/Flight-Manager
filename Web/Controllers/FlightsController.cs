@@ -3,6 +3,7 @@ using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,9 @@ namespace Web.Controllers
         private readonly FlightManagerDbContext _context;
         private int PageSize = 10;
 
-        public FlightsController()
+        public FlightsController(IConfiguration configuration)
         {
-            _context = new FlightManagerDbContext();
+            _context = new FlightManagerDbContext(configuration);
         }
 
         //The index page for flights

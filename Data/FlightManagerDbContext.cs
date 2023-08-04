@@ -2,6 +2,7 @@
 using Data.Enums;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,19 +17,29 @@ namespace Data
         public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<Passager> Passagers { get; set; }
 
+        public FlightManagerDbContext(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        private IConfiguration Configuration { get; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=.;Database=FlightManagerDb;Trusted_Connection=True;MultipleActiveResultSets=True");
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder
                 .Entity<Flight>()
                 .Property(e => e.Type)
                 .HasConversion(
                     v => v.ToString(),
                     v => (TypesOfPlane)Enum.Parse(typeof(TypesOfPlane), v));
+
         }
     }
 }

@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <UserSecretsId>aspnet-Web-D1B5BB1D-7F1F-4C00-AFB3-C55282B59278</UserSecretsId>
   </PropertyGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="2.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+    <PackageReference Include="MailKit" Version="4.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

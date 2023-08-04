@@ -20,68 +20,39 @@ namespace Data.Entities
         public string PilotName { get; set; }
         public int MaxPassagerCapacity { get; set; }
         public int MaxBussinesCapacity { get; set; }
-        public int PassagerCapacity 
+        public int PassagerCapacity
         {
             get
             {
-                int result;
-                if (Reservations == null || Reservations.Count == 0)
+                int result = MaxPassagerCapacity;
+                if (Reservations != null)
                 {
-                    result = MaxPassagerCapacity;
-                }
-                else
-                {
-                    result = MaxPassagerCapacity;
-                    foreach (var Reservation in Reservations)
+                    foreach (var reservation in Reservations)
                     {
-                        result -= Reservation.NumberOfRegularPassagers;
+                        result -= reservation.NumberOfRegularPassagers;
                     }
                 }
                 return result;
             }
-            private set { }
         }
         public int BussinesClassCapacity
         {
             get
             {
-                int result;
-                if (Reservations == null || Reservations.Count == 0)
+                int result = MaxBussinesCapacity;
+                if (Reservations != null)
                 {
-                    result = MaxBussinesCapacity;
-                }
-                else
-                {
-                    result = MaxBussinesCapacity;
-                    foreach (var Reservation in Reservations)
+                    foreach (var reservation in Reservations)
                     {
-                        result -= Reservation.NumberOfBussinesPassagers;
+                        result -= reservation.NumberOfBussinesPassagers;
                     }
                 }
                 return result;
             }
-
-            private set { }        
         }
         public ICollection<Reservation> Reservations { get; set; }
         public bool IsCanceled { get; set; }
-        public bool IsOld 
-        {
-            get
-            {
-                bool isOld;
-                if (0 > DateTime.Compare(TakeOffTime, DateTime.Now))
-                {
-                    isOld = true;
-                }
-                else
-                {
-                    isOld = false;
-                }
-                return isOld;
-            }
-            set {}
-        }
+        public bool IsOld { get { return DateTime.Now > TakeOffTime; } private set { } }
 
         public bool AddReservation(Reservation reservation)
         {
@@ -99,6 +70,10 @@ namespace Data.Entities
             {
                 return false;
             }
+        }
+        public Flight()
+        {
+            Reservations = new List<Reservation>();
         }
     }
 }

@@ -12,6 +12,7 @@ using Web.Models.Passager;
 using Web.Models.Reservations;
 using Web.Models.Shared;
 using Web.Controllers;
+using Microsoft.Extensions.Configuration;
 
 namespace Web.Controllers
 {
@@ -23,10 +24,11 @@ namespace Web.Controllers
         private int PageSizeForDetails = 10;
         private MailsController mailsController;
 
-        public ReservationsController()
+
+        public ReservationsController(IConfiguration configuration)
         {
-            _context = new FlightManagerDbContext();
-            mailsController = new MailsController();
+            _context = new FlightManagerDbContext(configuration);
+            mailsController = new MailsController(configuration);
         }
 
         //Returns the index page for reservations

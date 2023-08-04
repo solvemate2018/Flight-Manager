@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Data.Migrations
 {
     [DbContext(typeof(FlightManagerDbContext))]
@@ -15,19 +17,18 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Data.Entities.Flight", b =>
                 {
                     b.Property<int>("UniqueNumber")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BussinesClassCapacity")
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UniqueNumber"));
 
                     b.Property<bool>("IsCanceled")
                         .HasColumnType("bit");
@@ -50,9 +51,6 @@ namespace Data.Migrations
                     b.Property<int>("MaxPassagerCapacity")
                         .HasColumnType("int");
 
-                    b.Property<int>("PassagerCapacity")
-                        .HasColumnType("int");
-
                     b.Property<string>("PilotName")
                         .HasColumnType("nvarchar(max)");
 
@@ -72,8 +70,9 @@ namespace Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -110,8 +109,9 @@ namespace Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -182,6 +182,8 @@ namespace Data.Migrations
                         .HasForeignKey("ReservationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("Data.Entities.Reservation", b =>
@@ -191,6 +193,18 @@ namespace Data.Migrations
                         .HasForeignKey("FlightId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Flight");
+                });
+
+            modelBuilder.Entity("Data.Entities.Flight", b =>
+                {
+                    b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("Data.Entities.Reservation", b =>
+                {
+                    b.Navigation("Passagers");
                 });
 #pragma warning restore 612, 618
         }

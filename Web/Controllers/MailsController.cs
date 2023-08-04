@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -9,6 +10,13 @@ namespace Web.Controllers
 {
     public class MailsController
     {
+        public MailsController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        private IConfiguration Configuration { get; }
+
         //Send information, if the reservation was confirmed
         public void SendReservationConfirmation(string email, ICollection<Passager> passagers)
         {
@@ -19,7 +27,7 @@ namespace Web.Controllers
             {
                 client.UseDefaultCredentials = false;
 
-                client.Credentials = new NetworkCredential("georgy.d.2001@gmail.com", "$0rryBate");
+                client.Credentials = new NetworkCredential(Configuration["Email"], Configuration["EmailPassword"]);
 
                 foreach (var passager in passagers)
                 {
@@ -31,7 +39,7 @@ namespace Web.Controllers
                     body.Append($"First name: {passager.FirstName}, Last name: {passager.LastName}, Type of ticket: {passager.Type}");
 
 
-                    client.Send("flightmanager@gmail.com", email, "Your reservation request", body.ToString());
+                    client.Send(Configuration["Email"], email, "Your reservation request", body.ToString());
                 }
             }
         }
@@ -46,7 +54,7 @@ namespace Web.Controllers
             {
                 client.UseDefaultCredentials = false;
 
-                client.Credentials = new NetworkCredential("georgy.d.2001@gmail.com", "$0rryBate");
+                client.Credentials = new NetworkCredential(Configuration["Email"], Configuration["EmailPassword"]);
 
                 foreach (var reservation in reservations)
                 {
@@ -55,7 +63,7 @@ namespace Web.Controllers
                     body.Append($"We are sorry to inform you that your reservation for flight " +
                         $"from {reservation.Flight.LocationFrom} to {reservation.Flight.LocationTo} was cancelled.");
 
-                    client.Send("flightmanager@gmail.com", reservation.Email, "Flight Cancellation", body.ToString());
+                    client.Send(Configuration["Email"], reservation.Email, "Flight Cancellation", body.ToString());
                 }
             }
 

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +23,12 @@ namespace Web.Controllers
         private readonly FlightManagerDbContext _context;
 
         private int PageSize = 10;
-
         public UsersController(UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this._context = new FlightManagerDbContext();
+            this._context = new FlightManagerDbContext(configuration);
         }
 
         //Returns the index page for admin

@@ -8,9 +8,16 @@
       "TRACE",
       "DEBUG",
       "NETCOREAPP",
-      "NETCOREAPP3_1"
+      "NETCOREAPP3_1",
+      "NETCOREAPP1_0_OR_GREATER",
+      "NETCOREAPP1_1_OR_GREATER",
+      "NETCOREAPP2_0_OR_GREATER",
+      "NETCOREAPP2_1_OR_GREATER",
+      "NETCOREAPP2_2_OR_GREATER",
+      "NETCOREAPP3_0_OR_GREATER",
+      "NETCOREAPP3_1_OR_GREATER"
     ],
-    "languageVersion": "",
+    "languageVersion": "8.0",
     "platform": "",
     "allowUnsafe": false,
     "warningsAsErrors": false,
@@ -25,7 +32,7 @@
       "Web/1.0.0": {
         "dependencies": {
           "Data": "1.0.0",
-          "MailKit": "2.5.1",
+          "MailKit": "2.5.2",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.2",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.2",
           "Microsoft.AspNetCore.Identity.UI": "3.1.2",
@@ -304,9 +311,9 @@
           "Web.dll": {}
         }
       },
-      "MailKit/2.5.1": {
+      "MailKit/2.5.2": {
         "dependencies": {
-          "MimeKit": "2.5.1",
+          "MimeKit": "2.5.2",
           "System.Net.NameResolution": "4.3.0",
           "System.Net.Security": "4.3.2",
           "System.Runtime.Serialization.Primitives": "4.3.0"
@@ -314,7 +321,7 @@
         "runtime": {
           "lib/netstandard2.0/MailKit.dll": {
             "assemblyVersion": "2.5.0.0",
-            "fileVersion": "2.5.1.0"
+            "fileVersion": "2.5.2.0"
           }
         },
         "compile": {
@@ -784,7 +791,7 @@
           "System.Security.Principal.Windows": "4.5.0"
         }
       },
-      "MimeKit/2.5.1": {
+      "MimeKit/2.5.2": {
         "dependencies": {
           "Portable.BouncyCastle": "1.8.5",
           "System.Data.Common": "4.3.0",
@@ -795,7 +802,7 @@
         "runtime": {
           "lib/netstandard2.0/MimeKit.dll": {
             "assemblyVersion": "2.5.0.0",
-            "fileVersion": "2.5.1.0"
+            "fileVersion": "2.5.2.0"
           }
         },
         "compile": {
@@ -927,11 +934,7 @@
           "System.Threading.Tasks": "4.3.0"
         }
       },
-      "System.Collections.Immutable/1.7.0": {
-        "compile": {
-          "lib/netstandard2.0/System.Collections.Immutable.dll": {}
-        }
-      },
+      "System.Collections.Immutable/1.7.0": {},
       "System.Collections.NonGeneric/4.3.0": {
         "dependencies": {
           "System.Diagnostics.Debug": "4.3.0",
@@ -958,11 +961,7 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "System.ComponentModel.Annotations/4.7.0": {
-        "compile": {
-          "ref/netstandard2.1/System.ComponentModel.Annotations.dll": {}
-        }
-      },
+      "System.ComponentModel.Annotations/4.7.0": {},
       "System.ComponentModel.Primitives/4.3.0": {
         "dependencies": {
           "System.ComponentModel": "4.3.0",
@@ -1020,11 +1019,7 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "System.Diagnostics.DiagnosticSource/4.7.0": {
-        "compile": {
-          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
-        }
-      },
+      "System.Diagnostics.DiagnosticSource/4.7.0": {},
       "System.Diagnostics.Tools/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "2.0.0",
@@ -3252,12 +3247,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "MailKit/2.5.1": {
+    "MailKit/2.5.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-0sLYQsWszoqdQorVnfCMsRswBYwodpO03fS5Ij1m7Qx6B02IlgXYLwsLqIJHkvUOoEOazrwxIerIZwujV1/Mbw==",
-      "path": "mailkit/2.5.1",
-      "hashPath": "mailkit.2.5.1.nupkg.sha512"
+      "sha512": "sha512-ZzArgcfBKOPCJNoQOM0/K84gyJj+aXUMAtK9Jqz5gfV2c4eP0XVzuwQltOt90rRj9xpTbZfe8P4S/VEdxcJMzA==",
+      "path": "mailkit/2.5.2",
+      "hashPath": "mailkit.2.5.2.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/3.1.2": {
       "type": "package",
@@ -3511,12 +3506,12 @@
       "path": "microsoft.win32.registry/4.5.0",
       "hashPath": "microsoft.win32.registry.4.5.0.nupkg.sha512"
     },
-    "MimeKit/2.5.1": {
+    "MimeKit/2.5.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-KcySIws+ZT1ubER/Z09T9FQ2fsliqFORuLayKCr3mj0Sk4mqXKMvuX2B/W7FHMrLYocYrnU6ngvwVExxwxFrmA==",
-      "path": "mimekit/2.5.1",
-      "hashPath": "mimekit.2.5.1.nupkg.sha512"
+      "sha512": "sha512-NtkzJS91ybVpWLIP3BIDXGbLcayetWLTCxbPxtvCRRimzDuAo753+xLGKrV4j6ix1IrugNNXRHOTQXfoXLwNHA==",
+      "path": "mimekit/2.5.2",
+      "hashPath": "mimekit.2.5.2.nupkg.sha512"
     },
     "Newtonsoft.Json/12.0.2": {
       "type": "package",
