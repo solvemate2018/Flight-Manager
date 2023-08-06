@@ -7,12 +7,13 @@ namespace Web.Data
     //Main connection with the Datebase for Identity
     public class ApplicationDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(IConfiguration configuration)
+        private readonly IConfiguration Configuration;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
+            : base(options)
         {
             Configuration = configuration;
         }
-
-        private IConfiguration Configuration { get; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
